@@ -30,6 +30,7 @@ async function start(){
         res.send("success")
     })
     
+    
     try{
         app.listen(PORT,()=>{
             console.log(`Server running on port ${PORT}`)
