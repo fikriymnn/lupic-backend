@@ -9,6 +9,7 @@ const app = express()
 app.use(cors({credentials: true, origin: true }))
 const URL = process.env.DATABASE_URL
 const PORT = process.env.PORT || 5000
+const path = require('path')
 
 async function start(){
     try{
@@ -26,9 +27,8 @@ async function start(){
     app.use(cookie_parser())
     
     app.use("/api",require('./router/router'))
-    app.use("/",(req,res)=>{
-        res.send("success")
-    })
+
+    app.use("/file",express.static(path.join(__dirname, 'file')));
     
     
     try{
