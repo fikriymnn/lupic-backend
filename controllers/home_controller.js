@@ -5,6 +5,7 @@ get_home:async(req,res)=>{
     try{
        const data = await Home.find()
        res.json({
+        _id:data[0]._id,
         success:true,
         hero_section:data[0].hero_section,
         carousel:data[0].carousel

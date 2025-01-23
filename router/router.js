@@ -26,9 +26,7 @@ router.post("/file",upload.single('file'),(req,res)=>{
     if (!req.file) {
         return res.status(400).send('Tidak ada file yang di-upload.');
     }
-    console.log(req.file)
-    const ext = req.file.originalname.split(".")
-    const fileUrl = `${process.env.URL}/file/${req.file.filename}`;
+    const fileUrl = `${req.file.filename}`;
 
     res.send(fileUrl)
 })
