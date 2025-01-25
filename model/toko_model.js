@@ -10,9 +10,15 @@ const toko_schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    content: {
+        type:String,
+    },
     harga: {
         type:Number,
         required:true
+    },
+    gambar: {
+        type:String
     },
     link_shopee: {
         type:String,

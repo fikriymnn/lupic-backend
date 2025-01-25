@@ -18,9 +18,9 @@ const toko_controller = {
     },
     create_toko: async (req, res) => {
         try {
-            const { judul, deskripsi, harga,link_shopee,link_tokped,gambar } = req.body
+            const { judul, deskripsi, harga,link_shopee,link_tokped,gambar,content } = req.body
             await Toko.create({
-                judul, deskripsi, harga,link_shopee,link_tokped,gambar
+                judul, deskripsi, harga,link_shopee,link_tokped,gambar,content
             })
             res.send("success")
         } catch (err) {
@@ -31,10 +31,10 @@ const toko_controller = {
     },
     update_toko: async (req, res) => {
         try {
-            const { judul, deskripsi, harga,link_shopee,link_tokped,gambar } = req.body
+            const { judul, deskripsi, harga,link_shopee,link_tokped,gambar,content } = req.body
             const { id } = req.params
 
-            await Toko.updateOne({ _id: id }, { judul, deskripsi, harga,link_shopee,link_tokped,gambar })
+            await Toko.updateOne({ _id: id }, { judul, deskripsi, harga,link_shopee,link_tokped,gambar,content })
             res.send("success")
         } catch (err) {
             res.status(500).json({

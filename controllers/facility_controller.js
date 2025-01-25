@@ -18,9 +18,9 @@ const facility_controller = {
     },
     create_facility: async (req, res) => {
         try {
-            const { judul, deskripsi, harga, link_shopee,link_tokped,gambar } = req.body
+            const { judul, deskripsi, content,gambar } = req.body
             await Facility.create({
-                judul, deskripsi, harga, link_shopee,link_tokped,gambar
+                judul, deskripsi, content,gambar
             })
             res.send("success")
         } catch (err) {
@@ -31,10 +31,10 @@ const facility_controller = {
     },
     update_facility: async (req, res) => {
         try {
-            const { judul, deskripsi, harga, link_shopee,link_tokped,gambar } = req.body
+            const { judul, deskripsi, content,gambar } = req.body
             const { id } = req.params
 
-            await Facility.updateOne({ _id: id }, { judul, deskripsi, harga, link_shopee,link_tokped,gambar })
+            await Facility.updateOne({ _id: id }, { judul, deskripsi, content,gambar })
             res.send("success")
         } catch (err) {
             res.status(500).json({

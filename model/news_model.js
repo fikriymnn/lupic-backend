@@ -16,7 +16,9 @@ const news_schema = new mongoose.Schema({
     },
     deskripsi: {
         type:String,
-        required:true
+    },
+    content:{
+        type:String,
     },
     gambar: {
         type:String,

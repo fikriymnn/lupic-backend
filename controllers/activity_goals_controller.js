@@ -23,10 +23,10 @@ const activity_goals_controller = {
         },
         update_activity_goals: async (req, res) => {
             try {
-                const { point,sub_point,text,year_1,year_2,year_3,year_4,year_5,year_6 } = req.body
+                const { point,sub_point,sub_sub_point,text,year_1,year_2,year_3,year_4,year_5,year_6 } = req.body
                 const { id } = req.params
     
-                await Activity_goals.updateOne({ _id: id }, { point,sub_point,text,year_1,year_2,year_3,year_4,year_5,year_6 })
+                await Activity_goals.updateOne({ _id: id }, { point,sub_point,sub_sub_point,text,year_1,year_2,year_3,year_4,year_5,year_6 })
                 res.send("success")
             } catch (err) {
                 res.status(500).json({

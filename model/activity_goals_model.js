@@ -8,32 +8,41 @@ const activity_goals_schema = new mongoose.Schema({
     sub_point: {
         type: Number,
     },
+    sub_sub_point: {
+        type: Number,
+    },
     text: {
         type: String,
     },
     year_1: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
     year_2: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
     year_3: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
     year_4: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
     year_5: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
     year_6: {
-        type: Boolean,
-        default:false
+        upi:String,
+        unnes:String,
+        undiksha:String
     },
 
 },

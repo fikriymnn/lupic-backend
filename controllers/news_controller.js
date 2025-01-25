@@ -26,9 +26,9 @@ const news_controller = {
     },
     create_news: async (req, res) => {
         try {
-            const { judul, deskripsi, gambar, sub_content, tanggal, author } = req.body
+            const { judul, deskripsi, gambar, sub_content, tanggal, author,content } = req.body
             await News.create({
-                judul, deskripsi, gambar, sub_content, tanggal, author
+                judul, deskripsi, gambar, sub_content, tanggal, author,content
             })
             res.send("success")
         } catch (err) {
@@ -39,10 +39,10 @@ const news_controller = {
     },
     update_news: async (req, res) => {
         try {
-            const { judul, deskripsi, gambar, sub_content, tanggal, author } = req.body
+            const { judul, deskripsi, gambar, sub_content, tanggal, author,content } = req.body
             const { id } = req.params
 
-            await News.updateOne({ _id: id }, { judul, deskripsi, gambar, sub_content, tanggal, author })
+            await News.updateOne({ _id: id }, { judul, deskripsi, gambar, sub_content, tanggal, author,content })
             res.send("success")
         } catch (err) {
             res.status(500).json({
