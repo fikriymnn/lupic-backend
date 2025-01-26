@@ -11,10 +11,7 @@ const user_controller = {
                   data: "user is not exist"
                })
             }else{
-               return res.status(200).json({
-                  success: true,
-                  data
-               })
+               return res.status(200).send("success")
             }
          } catch (err) {
             return res.status(500).json({
@@ -34,10 +31,7 @@ const user_controller = {
              res.clearCookie('access_token',{ sameSite:'None',
              secure: true,})
     
-             return res.status(200).json({
-                success: true,
-                message: "Logout successfully!"
-             })
+             return res.status(200).send("success")
           } catch (err) {
              return res.status(500).json({
                 success: false,
@@ -47,16 +41,9 @@ const user_controller = {
     },
     login_user: async (req, res) => {
         try {
-            if (req.cookies.access_token) {
-                return res.status(200).json({
-                    success: true,
-                    status: 200,
-                    message: "Login successfully"
-                })
-            }
             const { password, email } = req.body
             if (!password && !email) {
-                return res.status(200).json({
+                return res.status(400).json({
                     status: 400,
                     success: false,
                     message: "email atau password salah."
@@ -64,9 +51,8 @@ const user_controller = {
             }
 
             const user = await User.findOne({ email })
-            console.log(2)
             if (!user) {
-                return res.status(200).json({
+                return res.status(400).json({
                     status: 400,
                     success: false,
                     message: "email tidak ditemukan."
@@ -74,7 +60,7 @@ const user_controller = {
             }
 
             if (password!==user.password) {
-                return res.status(200).json({
+                return res.status(400).json({
                     status: 400,
                     success: false,
                     message: "password salah."
@@ -92,15 +78,11 @@ const user_controller = {
                 httpOnly: true,
                 path: "/",
                 sameSite: 'None',
-                secure: true,
+                secure:true,
                 expires: new Date(Date.now() + expiresInMilliseconds)
             })
 
-            return res.status(200).json({
-                success: true,
-                token: access_token,
-                data: "login success"
-            })
+            return res.status(200).send("success")
         } catch (err) {
             console.log(err.message)
             return res.status(500).json({
