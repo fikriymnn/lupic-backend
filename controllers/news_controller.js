@@ -11,7 +11,8 @@ const news_controller = {
                 const data = await News.findOne({ _id: req.params.id })
                 res.send(data)
             } else if (search) {
-                await News.find({judul:search}).sort({ createdAt: -1 })
+                const data = await News.find({judul:{ $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).skip(s)
+                .limit(l);
                 res.send(data)
             }else if(page&&limit) {
                 const data = await News.find().sort({ createdAt: -1 }).skip(s)
