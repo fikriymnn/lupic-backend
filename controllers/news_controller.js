@@ -3,13 +3,16 @@ const News = require("../model/news_model")
 const news_controller = {
     get_news: async (req, res) => {
         try {
-            const { page, limit, search } = req.query
+            const { page, limit, search,count } = req.query
             const s = parseInt((page - 1) * limit);
             const l = parseInt(limit);
 
             if (req.params.id) {
                 const data = await News.findOne({ _id: req.params.id })
                 res.send(data)
+            }else if(count&&search){
+                const data = await News.countDocuments({judul:{ $regex: search, $options: 'i' } })
+                res.status(200).json(data)
             } else if (search) {
                 const data = await News.find({judul:{ $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).skip(s)
                 .limit(l);
