@@ -2,11 +2,21 @@ const Toko = require("../model/toko_model")
 
 const toko_controller = {
     get_toko: async (req, res) => {
+        const {limit,page,count} = req.query
+        const s = parseInt((page - 1) * limit);
+        const l = parseInt(limit);
         try {
-            if (req.params.id) {
+            if(count){
+                const data = await Toko.countDocuments()
+                res.json(data)
+            } else if (req.params.id) {
                 const data = await Toko.findOne({ _id: req.params.id })
                 res.send(data)
-            } else {
+            } else if(limit&&page){
+                const data = await Toko.find().sort({ createdAt: -1 }).skip(s)
+                .limit(l);
+                res.send(data)
+            }else {
                 const data = await Toko.find()
                 res.send(data)
             }
