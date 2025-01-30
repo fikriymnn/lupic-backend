@@ -3,7 +3,7 @@ const Activity_goals = require("../model/activity_goals_model")
 const activity_goals_controller = {
      get_activity_goals: async (req, res) => {
             try {
-                const data = await Activity_goals.find()
+                const data = await Activity_goals.find().sort({point: 1,sub_point:1,sub_sub_point:1 })
                 res.send(data)
             } catch (err) {
                 res.status(500).json({
