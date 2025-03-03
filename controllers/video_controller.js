@@ -13,9 +13,9 @@ const video_controller = {
     },
     create_video: async (req, res) => {
         try {
-            const { cover,judul,file } = req.body
+            const { judul,link } = req.body
             await Video.create({
-                cover,judul,file
+                judul,link
             })
             res.send("success")
         } catch (err) {
