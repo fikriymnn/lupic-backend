@@ -1,7 +1,7 @@
 const Paper = require("../model/paper_model");
 
 const paper_controller = {
-  paper: async (req, res) => {
+  get_paper: async (req, res) => {
     try {
       const data = await Paper.find();
       res.send(data);
