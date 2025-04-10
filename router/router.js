@@ -1,15 +1,15 @@
-const router = require('express').Router()
-const multer = require("multer")
+const router = require("express").Router();
+const multer = require("multer");
 // const upload = multer({ dest: 'file/' })
-const path = require("path")
+const path = require("path");
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'file'); // Folder tempat menyimpan file
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Menyimpan dengan nama unik
-    }
+  destination: (req, file, cb) => {
+    cb(null, "file"); // Folder tempat menyimpan file
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Menyimpan dengan nama unik
+  },
 });
 
 const upload = multer({ storage: storage });
@@ -35,5 +35,3 @@ router.post("/file",upload.single('file'),(req,res)=>{
     res.send(fileUrl)
 })
 
-
-module.exports = router
