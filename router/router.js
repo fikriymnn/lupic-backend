@@ -31,7 +31,7 @@ router.post("/file",upload.single('file'),(req,res)=>{
         return res.status(400).send('Tidak ada file yang di-upload.');
     }
     const fileUrl = `${req.file.filename}`;
+  res.send(fileUrl);
+});
 
-    res.send(fileUrl)
-})
-
+module.exports = router;
