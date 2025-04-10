@@ -1,11 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const user_public_schema = new mongoose.Schema({
-    nama:{
-        type:String,
-        required:true
-    },
+const user_schema = new mongoose.Schema({
     email: {
         type:String,
         required:true
@@ -14,8 +10,12 @@ const user_public_schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    role:{
+        type:String,
+        default:"admin"
+    }
 },
 {timestamps:true}
 )
 
-module.exports =  mongoose.model("User_public",user_public_schema)
+module.exports =  mongoose.model("User",user_schema)

@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const user_controller = require('../controllers/user_controller')
+const user_controller = require('../controllers/admin_user_controller')
 const {auth} = require("../middleware/auth")
-const User = require("../model/user_model")
+const User = require("../model/admin_user_model")
 
 router.post("/login",user_controller.login_user)
 router.post("/user",async(req,res)=>{

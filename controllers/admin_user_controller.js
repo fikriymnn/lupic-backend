@@ -1,4 +1,4 @@
-const User = require("../model/user_model")
+const User = require("../model/admin_user_model")
 const generate_access_token = require("../utils/generate_access_token")
 
 const user_controller = {
