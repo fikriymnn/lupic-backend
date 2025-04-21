@@ -6,6 +6,10 @@ const user_public_schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    Email: {
+        type:String,
+        required:true
+    },
     no_wa: {
         type:String,
         required:true
@@ -26,6 +30,18 @@ const user_public_schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    no_wa: {
+        type:String,
+        required:true
+    },
+    instansi: {
+        type:String,
+        required:true
+    }, 
+    tgl_lahir: {
+        type:String,
+        required:true
+    }
 },
 {timestamps:true}
 )
