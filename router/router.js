@@ -14,6 +14,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+router.use("/",require("./jadwal_routes"))
+router.use("/",require("./peserta_routes"))
+router.use("/",require("./user_routes"))
 router.use("/",require("./admin_user_routes"))
 router.use("/",require("./toko_routes"))
 router.use("/",require("./home_routes"))

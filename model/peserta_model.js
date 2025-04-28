@@ -1,12 +1,11 @@
 const mongoose = require('mongoose')
 
-
-const user_public_schema = new mongoose.Schema({
+const peserta_schema = new mongoose.Schema({
     nama:{
         type:String,
         required:true
     },
-    Email: {
+    email: {
         type:String,
         required:true
     },
@@ -46,4 +45,4 @@ const user_public_schema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports =  mongoose.model("User_public",user_public_schema)
+module.exports =  mongoose.model("Peserta",peserta_schema)

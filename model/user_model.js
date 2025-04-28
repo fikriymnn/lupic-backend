@@ -25,6 +25,10 @@ const user_public_schema = new mongoose.Schema({
     tgl_lahir: {
         type:String,
         required:true
+    },
+    role:{
+        type:String,
+        default:"user"
     }
 },
 {timestamps:true}
