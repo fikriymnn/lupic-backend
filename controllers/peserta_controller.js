@@ -34,8 +34,9 @@ exports.getPesertaById = async (req, res) => {
 // Create new peserta
 exports.createPeserta = async (req, res) => {
     try {
-        const peserta = new Peserta(req.body);
-        const newPeserta = await peserta.save();
+        console.log(1)
+        const newPeserta = await Peserta.create(req.body);
+        console.log(3)
         res.status(201).json(newPeserta);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -71,19 +72,28 @@ exports.deletePeserta = async (req, res) => {
 // Get category with dynamic project fields and unique values
 exports.getCategory = async (req, res) => {
     try {
-        const field = req.query.field; // Expecting a single field name in the query parameter
-        if (!field) {
-            return res.status(400).json({ message: 'Field query parameter is required' });
-        }
+        const { page = 1, limit = 10 } = req.query; // Default values for pagination
 
+        const skip = (page - 1) * limit; // Calculate the number of documents to skip
+        const sort = { createdAt: -1 }; // Sort by createdAt field in descending order (newest first)
         const pipeline = [
-            { $group: { _id: `$${field}` } }, // Group by the specified field to get unique values
-            { $project: { _id: 0, value: '$_id' } } // Format the output to only include the unique values
+            { $group: { _id: {
+            hari: "$hari",
+            tanggal: "$tanggal",
+            bulan:"$bulan",
+            tahun:"$tahun"
+              } } }, // Group by the specified field to get unique values
+            { $project: { _id: 0, value: '$_id' } }, // Format the output to only include the unique values
+            { $skip: skip }, // Skip documents for pagination
+            { $limit: parseInt(limit) }, // Limit the number of documents returned
+            { $sort: { createdAt: -1 } }
         ];
 
         const result = await Peserta.aggregate(pipeline);
+        const length = await Peserta.countDocuments(pipeline); // Get the total number of documents for pagination
+        const totalPages = Math.ceil(length / limit); // Calculate total pages
         const uniqueValues = result.map(item => item.value); // Extract the unique values into an array
-        res.status(200).json(uniqueValues);
+        res.status(200).json({data:uniqueValues,total_pages:totalPages}); // Return the unique values and pagination info
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

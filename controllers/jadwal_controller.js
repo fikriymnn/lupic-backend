@@ -14,7 +14,8 @@ exports.createJadwal = async (req, res) => {
 // Get all schedules
 exports.getAllJadwal = async (req, res) => {
     try {
-        const jadwals = await Jadwal.find();
+        const filter = req.query.status ? { status: req.query.status } : {};
+        const jadwals = await Jadwal.find(filter);
         res.status(200).json(jadwals);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -25,7 +26,7 @@ exports.getAllJadwal = async (req, res) => {
 // Update a schedule by ID
 exports.updateJadwal = async (req, res) => {
     try {
-        const updatedJadwal = await Jadwal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedJadwal = await Jadwal.findByIdAndUpdate(req.params.id, req.body);
         if (!updatedJadwal) {
             return res.status(404).json({ message: 'Jadwal not found' });
         }

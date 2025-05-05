@@ -5,24 +5,17 @@ const jwt = require("jsonwebtoken")
 const user_controller = {
     get_user: async (req, res) => {
         try {
+console.log("s")
             const data = req.user
+
             if(!data){
                res.status(200).json({
                   success: false,
                   data: "user is not exist"
                })
             }
-            
-            jwt.verify(req.user.access_token, process.env.ACC_TOKEN_SECRET, (err, decoded) => {
-                if (err) {
-                    return res.status(401).json({
-                        success: false,
-                        message: "Unauthorized"
-                    })
-                }
-                res.status(200).send(decoded)
-            })
-         
+
+            res.status(200).send(data)
             
          } catch (err) {
             return res.status(500).json({
@@ -79,7 +72,7 @@ const user_controller = {
             }
 
             const access_token = generate_access_token({
-                _id: user._id, email: user.email, role: user.role
+                _id: user._id, email: user.email, role: user.role,no_wa:user.no_wa,instansi:user.instansi,tgl_lahir:user.tgl_lahir,nama:user.nama
             })
 
             const millisecondsInDay = 1000 * 60 * 60 * 24;
@@ -128,7 +121,7 @@ const user_controller = {
             })
 
             const access_token = generate_access_token({
-                _id: data._id, email: email, role: "user"
+                _id: data._id, email: email, role: "user",no_wa:data.no_wa,instansi:data.instansi,tgl_lahir:data.tgl_lahir,nama:data.nama
             })
 
             const millisecondsInDay = 1000 * 60 * 60 * 24;
