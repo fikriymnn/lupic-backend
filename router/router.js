@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
+router.use("/",require("./paper_routes"));
 router.use("/",require("./jadwal_routes"))
 router.use("/",require("./peserta_routes"))
 router.use("/",require("./user_routes"))
