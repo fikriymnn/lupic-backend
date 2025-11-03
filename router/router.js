@@ -37,4 +37,7 @@ router.post("/file",upload.single('file'),(req,res)=>{
   res.send(fileUrl);
 });
 
+// Teacher Certification
+router.use("/",require("./teacher_certification/usecase_routes"))
+
 module.exports = router;
