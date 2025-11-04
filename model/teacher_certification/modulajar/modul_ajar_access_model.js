@@ -1,0 +1,73 @@
+import mongoose from "mongoose";
+
+const ModulAjarAccessSchema = new mongoose.Schema(
+  {
+    modulAjar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ModulAjar", // relasi ke modul ajar
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // jika nanti kamu punya model user
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: ["ACCESS", "NO ACCESS"],
+      default: "NO ACCESS",
+    },
+    nama: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    no_whatsapp: {
+      type: String,
+      required: true,
+    },
+    provinsi: {
+      type: String,
+      required: true,
+    },
+    jenjang_sekolah: {
+      type: String,
+      required: true,
+    },
+    nama_instansi: {
+      type: String,
+      required: true,
+    },
+    mata_pelajaran: {
+      type: String,
+      required: true,
+    },
+    status_ppg: {
+      type: String,
+      required: false,
+    },
+    sumber_informasi: {
+      type: String,
+      required: true,
+    },
+    sumber_informasi_lainnya: {
+      type: String,
+      required: false,
+    },
+    tanggal_pengisi: {
+      type: Date,
+      default: Date.now,
+    },
+    bukti_pembayaran: {
+      type: String, // bisa URL atau path file bukti
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("ModulAjarAccess", ModulAjarAccessSchema);

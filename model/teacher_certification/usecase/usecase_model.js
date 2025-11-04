@@ -32,7 +32,7 @@ const useCaseSchema = new Schema(
       required: true
     },
     pertanyaanAnalisis: {
-      type: [String],
+      type: String,
       required: true
     },
     pembahasan: {
