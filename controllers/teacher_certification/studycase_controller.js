@@ -1,29 +1,27 @@
-const UseCase = require("../../model/teacher_certification/usecase/usecase_model");
-const UseCaseAnswer = require("../../model/teacher_certification/usecase/usecase_answer_model");
-const UseCaseForum = require("../../model/teacher_certification/usecase/usecase_forum_model");
+const StudyCase = require("../../model/teacher_certification/studycase/studycase_model");
+const StudyCaseAnswer = require("../../model/teacher_certification/studycase/studycase_answer_model");
+const StudyCaseForum = require("../../model/teacher_certification/studycase/studycase_forum_model");
 
 // =======================
-// 📘 USE CASE CRUD
+// 📘 STUDY CASE CRUD
 // =======================
 
-// CREATE Use Case
-exports.createUseCase = async (req, res) => {
+// CREATE Study Case
+exports.createStudyCase = async (req, res) => {
   try {
-    const useCase = new UseCase(req.body);
-    await useCase.save();
-    res.status(201).json(useCase);
+    const studyCase = new StudyCase(req.body);
+    await studyCase.save();
+    res.status(201).json(studyCase);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-// ✅ GET ALL USE CASES (dengan filter + pagination)
-exports.getAllUseCases = async (req, res) => {
+// ✅ GET ALL STUDY CASES (dengan filter + pagination)
+exports.getAllStudyCases = async (req, res) => {
   try {
-    // Ambil query filter dari request
     const { topikIPA, jenjang, kompetensiGuru, page = 1, limit = 10 } = req.query;
 
-    // Buat objek filter dinamis
     const filter = {};
     if (topikIPA) filter.topikIPA = topikIPA;
     if (jenjang) filter.jenjang = jenjang;
@@ -31,15 +29,14 @@ exports.getAllUseCases = async (req, res) => {
 
     const skip = (Number(page) - 1) * Number(limit);
 
-    // Jalankan query
     const [data, total] = await Promise.all([
-      UseCase.find(filter)
+      StudyCase.find(filter)
         .populate("answer")
         .populate("forums")
         .skip(skip)
         .limit(Number(limit))
         .sort({ createdAt: -1 }),
-      UseCase.countDocuments(filter)
+      StudyCase.countDocuments(filter)
     ]);
 
     res.json({
@@ -53,59 +50,59 @@ exports.getAllUseCases = async (req, res) => {
   }
 };
 
-// GET Single Use Case by ID
-exports.getUseCaseById = async (req, res) => {
+// GET Single Study Case by ID
+exports.getStudyCaseById = async (req, res) => {
   try {
-    const useCase = await UseCase.findById(req.params.id)
+    const studyCase = await StudyCase.findById(req.params.id)
       .populate("answer")
       .populate("forums");
-    if (!useCase) return res.status(404).json({ message: "Use case not found" });
-    res.json(useCase);
+    if (!studyCase) return res.status(404).json({ message: "Study case not found" });
+    res.json(studyCase);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// UPDATE Use Case
-exports.updateUseCase = async (req, res) => {
+// UPDATE Study Case
+exports.updateStudyCase = async (req, res) => {
   try {
-    const useCase = await UseCase.findByIdAndUpdate(req.params.id, req.body, {
+    const studyCase = await StudyCase.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     });
-    if (!useCase) return res.status(404).json({ message: "Use case not found" });
-    res.json(useCase);
+    if (!studyCase) return res.status(404).json({ message: "Study case not found" });
+    res.json(studyCase);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-// DELETE Use Case (hapus juga relasi answer & forum)
-exports.deleteUseCase = async (req, res) => {
+// DELETE Study Case (hapus juga relasi answer & forum)
+exports.deleteStudyCase = async (req, res) => {
   try {
-    const useCase = await UseCase.findByIdAndDelete(req.params.id);
-    if (!useCase) return res.status(404).json({ message: "Use case not found" });
+    const studyCase = await StudyCase.findByIdAndDelete(req.params.id);
+    if (!studyCase) return res.status(404).json({ message: "Study case not found" });
 
-    await UseCaseAnswer.deleteOne({ useCaseId: req.params.id });
-    await UseCaseForum.deleteMany({ useCaseId: req.params.id });
+    await StudyCaseAnswer.deleteOne({ studyCaseId: req.params.id });
+    await StudyCaseForum.deleteMany({ studyCaseId: req.params.id });
 
-    res.json({ message: "Use case and related data deleted" });
+    res.json({ message: "Study case and related data deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 // =======================
-// 🧠 USE CASE ANSWER CRUD
+// 🧠 STUDY CASE ANSWER CRUD
 // =======================
 exports.createAnswer = async (req, res) => {
   try {
-    const { useCaseId, userId, answer } = req.body;
+    const { studyCaseId, userId, answer } = req.body;
 
-    const existing = await UseCaseAnswer.findOne({ useCaseId });
+    const existing = await StudyCaseAnswer.findOne({ studyCaseId });
     if (existing)
-      return res.status(400).json({ message: "Answer already exists for this use case" });
+      return res.status(400).json({ message: "Answer already exists for this study case" });
 
-    const newAnswer = new UseCaseAnswer({ useCaseId, userId, answer });
+    const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
     res.status(201).json(newAnswer);
   } catch (err) {
@@ -115,8 +112,8 @@ exports.createAnswer = async (req, res) => {
 
 exports.updateAnswer = async (req, res) => {
   try {
-    const updated = await UseCaseAnswer.findOneAndUpdate(
-      { useCaseId: req.params.useCaseId },
+    const updated = await StudyCaseAnswer.findOneAndUpdate(
+      { studyCaseId: req.params.studyCaseId },
       req.body,
       { new: true }
     );
@@ -129,8 +126,8 @@ exports.updateAnswer = async (req, res) => {
 
 exports.deleteAnswer = async (req, res) => {
   try {
-    const deleted = await UseCaseAnswer.findOneAndDelete({
-      useCaseId: req.params.useCaseId
+    const deleted = await StudyCaseAnswer.findOneAndDelete({
+      studyCaseId: req.params.studyCaseId
     });
     if (!deleted) return res.status(404).json({ message: "Answer not found" });
     res.json({ message: "Answer deleted" });
@@ -140,12 +137,12 @@ exports.deleteAnswer = async (req, res) => {
 };
 
 // =======================
-// 💬 USE CASE FORUM CRUD
+// 💬 STUDY CASE FORUM CRUD
 // =======================
 exports.createForumMessage = async (req, res) => {
   try {
-    const { useCaseId, userId, message } = req.body;
-    const forumMsg = new UseCaseForum({ useCaseId, userId, message });
+    const { studyCaseId, userId, message } = req.body;
+    const forumMsg = new StudyCaseForum({ studyCaseId, userId, message });
     await forumMsg.save();
     res.status(201).json(forumMsg);
   } catch (err) {
@@ -153,9 +150,9 @@ exports.createForumMessage = async (req, res) => {
   }
 };
 
-exports.getForumByUseCase = async (req, res) => {
+exports.getForumByStudyCase = async (req, res) => {
   try {
-    const messages = await UseCaseForum.find({ useCaseId: req.params.useCaseId })
+    const messages = await StudyCaseForum.find({ studyCaseId: req.params.studyCaseId })
       .populate("userId", "name email")
       .sort({ createdAt: 1 });
     res.json(messages);
@@ -166,7 +163,7 @@ exports.getForumByUseCase = async (req, res) => {
 
 exports.deleteForumMessage = async (req, res) => {
   try {
-    const deleted = await UseCaseForum.findByIdAndDelete(req.params.id);
+    const deleted = await StudyCaseForum.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Message not found" });
     res.json({ message: "Forum message deleted" });
   } catch (err) {

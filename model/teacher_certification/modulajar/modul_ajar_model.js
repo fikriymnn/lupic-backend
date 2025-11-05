@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const { model } = mongoose;
 
 const ModulAjarSchema = new mongoose.Schema(
   {
@@ -40,4 +41,4 @@ const ModulAjarSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("ModulAjar", ModulAjarSchema);
+module.exports = model("ModulAjar", ModulAjarSchema);

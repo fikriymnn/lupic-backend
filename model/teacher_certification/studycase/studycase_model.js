@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const useCaseSchema = new Schema(
+const studyCaseSchema = new Schema(
   {
     judulKasus: {
       type: String,
@@ -42,22 +42,22 @@ const useCaseSchema = new Schema(
   { timestamps: true }
 );
 
-// Virtual: relasi ke UseCaseAnswer (one-to-one)
-useCaseSchema.virtual("answer", {
-  ref: "UseCaseAnswer",
+// Virtual: relasi ke StudyCaseAnswer (one-to-one)
+studyCaseSchema.virtual("answer", {
+  ref: "StudyCaseAnswer",
   localField: "_id",
-  foreignField: "useCaseId",
+  foreignField: "studyCaseId",
   justOne: true
 });
 
-// Virtual: relasi ke UseCaseForum (one-to-many)
-useCaseSchema.virtual("forums", {
-  ref: "UseCaseForum",
+// Virtual: relasi ke StudyCaseForum (one-to-many)
+studyCaseSchema.virtual("forums", {
+  ref: "StudyCaseForum",
   localField: "_id",
-  foreignField: "useCaseId"
+  foreignField: "studyCaseId"
 });
 
-useCaseSchema.set("toObject", { virtuals: true });
-useCaseSchema.set("toJSON", { virtuals: true });
+studyCaseSchema.set("toObject", { virtuals: true });
+studyCaseSchema.set("toJSON", { virtuals: true });
 
-module.exports = model("UseCase", useCaseSchema);
+module.exports = model("StudyCase", studyCaseSchema);

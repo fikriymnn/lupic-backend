@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const { model } = mongoose;
 
 const ModulAjarAccessSchema = new mongoose.Schema(
   {
@@ -70,4 +71,4 @@ const ModulAjarAccessSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("ModulAjarAccess", ModulAjarAccessSchema);
+module.exports = model("ModulAjarAccess", ModulAjarAccessSchema);

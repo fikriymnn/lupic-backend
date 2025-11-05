@@ -1,25 +1,25 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const useCaseAnswerSchema = new Schema(
+const studyCaseForumSchema = new Schema(
   {
-    useCaseId: {
+    studyCaseId: {
       type: Schema.Types.ObjectId,
-      ref: "UseCase",
-      required: true,
-      unique: true // one-to-one
+      ref: "StudyCase",
+      required: true
     },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true
     },
-    answer: {
+    message: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     }
   },
   { timestamps: true }
 );
 
-module.exports = model("UseCaseAnswer", useCaseAnswerSchema);
+module.exports = model("StudyCaseForum", studyCaseForumSchema);
