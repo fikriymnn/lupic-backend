@@ -3,7 +3,7 @@ const { model } = mongoose;
 
 const ModulAjarAccessSchema = new mongoose.Schema(
   {
-    modulAjar: {
+    modulAjarId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ModulAjar", // relasi ke modul ajar
       required: true,

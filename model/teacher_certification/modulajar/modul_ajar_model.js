@@ -8,6 +8,10 @@ const ModulAjarSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    cover: {
+      type: String,
+      trim: true
+    },
     deskripsi: {
       type: String,
       required: true,

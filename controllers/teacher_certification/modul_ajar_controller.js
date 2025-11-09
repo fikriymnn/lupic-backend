@@ -87,7 +87,7 @@ exports.createAccess = async (req, res) => {
 exports.getAllAccess = async (req, res) => {
   try {
     const accessList = await ModulAjarAccess.find()
-      .populate("modulAjar", "judulModul status topikIPA jenjang")
+      .populate("modulAjar").populate("user")
       .sort({ createdAt: -1 });
 
     res.status(200).json(accessList);
@@ -100,7 +100,7 @@ exports.getAllAccess = async (req, res) => {
 exports.getAccessByModul = async (req, res) => {
   try {
     const accessList = await ModulAjarAccess.find({ modulAjar: req.params.modulId })
-      .populate("modulAjar", "judulModul topikIPA jenjang");
+      .populate("modulAjar").populate("user");
 
     res.status(200).json(accessList);
   } catch (error) {

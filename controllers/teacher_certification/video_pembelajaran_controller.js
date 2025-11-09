@@ -28,7 +28,6 @@ exports.getAllVideoPembelajaran = async (req, res) => {
     const total = await VideoPembelajaran.countDocuments(filter);
 
     const videos = await VideoPembelajaran.find(filter)
-      .populate("accesses")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
