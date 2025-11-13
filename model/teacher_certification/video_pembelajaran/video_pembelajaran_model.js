@@ -13,7 +13,7 @@ const videoPembelajaranSchema = new Schema(
     status: { type: String, default: "GRATIS" } // sebelumnya enum ["GRATIS","BERBAYAR"]
   },
   { timestamps: true }
-);
+);    
 
 // Virtual: relasi ke VideoPembelajaranAccess (one-to-many)
 videoPembelajaranSchema.virtual("accesses", {

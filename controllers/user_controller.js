@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
 const user_controller = {
     get_user: async (req, res) => {
         try {
-console.log("s")
             const data = req.user
 
             if(!data){
