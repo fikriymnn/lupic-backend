@@ -7,7 +7,8 @@ const StudyCaseForum = require("../../model/teacher_certification/studycase/stud
 // =======================
 
 // CREATE Study Case
-exports.createStudyCase = async (req, res) => {
+const studyCase = {
+createStudyCase : async (req, res) => {
   try {
     const studyCase = new StudyCase(req.body);
     await studyCase.save();
@@ -15,18 +16,17 @@ exports.createStudyCase = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
-
+}
 // ✅ GET ALL STUDY CASES (dengan filter + pagination)
-exports.getAllStudyCases = async (req, res) => {
+,getAllStudyCases : async (req, res) => {
   try {
-    const { topikIPA, jenjang, kompetensiGuru, page = 1, limit = 10 } = req.query;
+    const { search,topikIPA, jenjang, kompetensiGuru, page = 1, limit = 12 } = req.query;
 
     const filter = {};
     if (topikIPA) filter.topikIPA = topikIPA;
     if (jenjang) filter.jenjang = jenjang;
+    if (search) filter.judulKasus = {$regex:search, $options:"i"};
     if (kompetensiGuru) filter.kompetensiGuru = kompetensiGuru;
-
     const skip = (Number(page) - 1) * Number(limit);
 
     const [data, total] = await Promise.all([
@@ -48,11 +48,12 @@ exports.getAllStudyCases = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // GET Single Study Case by ID
-exports.getStudyCaseById = async (req, res) => {
+,getStudyCaseById : async (req, res) => {
   try {
+    console.log(1)
     const studyCase = await StudyCase.findById(req.params.id)
       .populate("answer")
       .populate("forums");
@@ -61,10 +62,10 @@ exports.getStudyCaseById = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // UPDATE Study Case
-exports.updateStudyCase = async (req, res) => {
+,updateStudyCase : async (req, res) => {
   try {
     const studyCase = await StudyCase.findByIdAndUpdate(req.params.id, req.body, {
       new: true
@@ -74,10 +75,10 @@ exports.updateStudyCase = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
 // DELETE Study Case (hapus juga relasi answer & forum)
-exports.deleteStudyCase = async (req, res) => {
+,deleteStudyCase : async (req, res) => {
   try {
     const studyCase = await StudyCase.findByIdAndDelete(req.params.id);
     if (!studyCase) return res.status(404).json({ message: "Study case not found" });
@@ -89,28 +90,30 @@ exports.deleteStudyCase = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // =======================
 // 🧠 STUDY CASE ANSWER CRUD
 // =======================
-exports.createAnswer = async (req, res) => {
+,createAnswer : async (req, res) => {
   try {
     const { studyCaseId, userId, answer } = req.body;
-
+     console.log("asnwer")
     const existing = await StudyCaseAnswer.findOne({ studyCaseId });
     if (existing)
       return res.status(400).json({ message: "Answer already exists for this study case" });
 
     const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
+    console.log(newAnswer)
+    console.log("answer2")
     res.status(201).json(newAnswer);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
-exports.updateAnswer = async (req, res) => {
+,updateAnswer : async (req, res) => {
   try {
     const updated = await StudyCaseAnswer.findOneAndUpdate(
       { studyCaseId: req.params.studyCaseId },
@@ -122,9 +125,9 @@ exports.updateAnswer = async (req, res) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+}
 
-exports.deleteAnswer = async (req, res) => {
+,deleteAnswer : async (req, res) => {
   try {
     const deleted = await StudyCaseAnswer.findOneAndDelete({
       studyCaseId: req.params.studyCaseId
@@ -134,23 +137,24 @@ exports.deleteAnswer = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
 // =======================
 // 💬 STUDY CASE FORUM CRUD
 // =======================
-exports.createForumMessage = async (req, res) => {
+,createForumMessage : async (req, res) => {
   try {
-    const { studyCaseId, userId, message } = req.body;
-    const forumMsg = new StudyCaseForum({ studyCaseId, userId, message });
+    const { studyCaseId, userId, name,message} = req.body;
+    const forumMsg = new StudyCaseForum({ studyCaseId, userId,name, message });
     await forumMsg.save();
     res.status(201).json(forumMsg);
   } catch (err) {
+    console.log(err.message)
     res.status(400).json({ error: err.message });
   }
-};
+}
 
-exports.getForumByStudyCase = async (req, res) => {
+,getForumByStudyCase : async (req, res) => {
   try {
     const messages = await StudyCaseForum.find({ studyCaseId: req.params.studyCaseId })
       .populate("userId", "name email")
@@ -159,9 +163,9 @@ exports.getForumByStudyCase = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
 
-exports.deleteForumMessage = async (req, res) => {
+,deleteForumMessage : async (req, res) => {
   try {
     const deleted = await StudyCaseForum.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Message not found" });
@@ -169,4 +173,9 @@ exports.deleteForumMessage = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
+}
+
+
+
+module.exports = studyCase

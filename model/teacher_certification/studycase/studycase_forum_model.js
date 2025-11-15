@@ -17,6 +17,10 @@ const studyCaseForumSchema = new Schema(
       type: String,
       required: true,
       trim: true
+    },
+    name:{
+      type:String,
+      required:true
     }
   },
   { timestamps: true }
