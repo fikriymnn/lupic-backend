@@ -10,8 +10,7 @@ const studyCaseAnswerSchema = new Schema(
       unique: true // one-to-one
     },
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true
     },
     answer: {

@@ -1,6 +1,7 @@
 const StudyCase = require("../../model/teacher_certification/studycase/studycase_model");
 const StudyCaseAnswer = require("../../model/teacher_certification/studycase/studycase_answer_model");
 const StudyCaseForum = require("../../model/teacher_certification/studycase/studycase_forum_model");
+const mongoose = require("mongoose");
 
 // =======================
 // 📘 STUDY CASE CRUD
@@ -53,13 +54,18 @@ createStudyCase : async (req, res) => {
 // GET Single Study Case by ID
 ,getStudyCaseById : async (req, res) => {
   try {
-    console.log(1)
+    const {userId} = req.query
     const studyCase = await StudyCase.findById(req.params.id)
-      .populate("answer")
       .populate("forums");
+    const answer = await StudyCaseAnswer.findOne({
+      userId:userId
+    })
+    studyCase.answer = answer
     if (!studyCase) return res.status(404).json({ message: "Study case not found" });
+    console.log(studyCase)
     res.json(studyCase);
   } catch (err) {
+    console.log(err.message)
     res.status(500).json({ error: err.message });
   }
 }
@@ -98,15 +104,12 @@ createStudyCase : async (req, res) => {
 ,createAnswer : async (req, res) => {
   try {
     const { studyCaseId, userId, answer } = req.body;
-     console.log("asnwer")
     const existing = await StudyCaseAnswer.findOne({ studyCaseId });
     if (existing)
       return res.status(400).json({ message: "Answer already exists for this study case" });
 
     const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
-    console.log(newAnswer)
-    console.log("answer2")
     res.status(201).json(newAnswer);
   } catch (err) {
     res.status(400).json({ error: err.message });
