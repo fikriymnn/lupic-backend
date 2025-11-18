@@ -4,13 +4,24 @@ const { Schema, model } = mongoose;
 
 const KnowledgeTestAccessSchema = new Schema(
   {
-    nilai: {
-      type: Number,
+    paket : {
+      type:String
+    },
+    paketId:{
+      type:Schema.Types.ObjectId,
+      ref: "KnowlageTestPaket",
     },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: false
+    },
+    start_date:{
+      type: Date,
+      default : Date.now()
+    },
+    end_date:{
+      type: Date,
     },
     nama: { type: String, trim: true },
     email: { type: String, trim: true },

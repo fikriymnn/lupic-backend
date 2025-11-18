@@ -5,25 +5,26 @@ const VideoPembelajaranAccess = require("../../model/teacher_certification/video
 /* =========================================================
    🎥 VIDEO PEMBELAJARAN CONTROLLERS
 ========================================================= */
-
-// ✅ Create Video Pembelajaran
-exports.createVideoPembelajaran = async (req, res) => {
+const videoPembelajaran = {
+  // ✅ Create Video Pembelajaran
+createVideoPembelajaran : async (req, res) => {
   try {
     const video = await VideoPembelajaran.create(req.body);
     res.status(201).json(video);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+}
 
 // ✅ Get All Video Pembelajaran (dengan filter & pagination)
-exports.getAllVideoPembelajaran = async (req, res) => {
+,getAllVideoPembelajaran : async (req, res) => {
   try {
-    const { page = 1, limit = 10, topikIPA, jenjang } = req.query;
+    const { page = 1, limit = 10, topikIPA, jenjang,search } = req.query;
 
     const filter = {};
     if (topikIPA) filter.topikIPA = topikIPA;
     if (jenjang) filter.jenjang = jenjang;
+    if(search) filter.judul = {$regex:search, $options:"i"}
 
     const total = await VideoPembelajaran.countDocuments(filter);
 
@@ -41,10 +42,10 @@ exports.getAllVideoPembelajaran = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 // ✅ Get Video Pembelajaran by ID
-exports.getVideoPembelajaranById = async (req, res) => {
+,getVideoPembelajaranById : async (req, res) => {
   try {
     const video = await VideoPembelajaran.findById(req.params.id).populate("accesses");
     if (!video) return res.status(404).json({ message: "Video pembelajaran tidak ditemukan" });
@@ -52,10 +53,10 @@ exports.getVideoPembelajaranById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 // ✅ Update Video Pembelajaran
-exports.updateVideoPembelajaran = async (req, res) => {
+,updateVideoPembelajaran : async (req, res) => {
   try {
     const video = await VideoPembelajaran.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!video) return res.status(404).json({ message: "Video tidak ditemukan" });
@@ -63,10 +64,10 @@ exports.updateVideoPembelajaran = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+}
 
 // ✅ Delete Video Pembelajaran (hapus juga semua akses terkait)
-exports.deleteVideoPembelajaran = async (req, res) => {
+,deleteVideoPembelajaran : async (req, res) => {
   try {
     const video = await VideoPembelajaran.findByIdAndDelete(req.params.id);
     if (!video) return res.status(404).json({ message: "Video tidak ditemukan" });
@@ -77,24 +78,26 @@ exports.deleteVideoPembelajaran = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 /* =========================================================
    🔑 VIDEO PEMBELAJARAN ACCESS CONTROLLERS
 ========================================================= */
 
 // ✅ Create Access
-exports.createVideoAccess = async (req, res) => {
+,createVideoAccess : async (req, res) => {
   try {
     const access = await VideoPembelajaranAccess.create(req.body);
+    console.log(access)
     res.status(201).json(access);
   } catch (error) {
+    console.log(error.message)
     res.status(400).json({ message: error.message });
   }
-};
+}
 
 // ✅ Get All Access (populate video)
-exports.getAllVideoAccess = async (req, res) => {
+,getAllVideoAccess : async (req, res) => {
   try {
     const accessList = await VideoPembelajaranAccess.find()
       .populate("videoId", "judul status jenjang topikIPA")
@@ -103,21 +106,26 @@ exports.getAllVideoAccess = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 // ✅ Get Access by Video ID
-exports.getAccessByVideoId = async (req, res) => {
+,getAccessByVideoId : async (req, res) => {
   try {
+    const {videoId} = req.params
+      const {userId} = req.query
+      let obj = {videoId : videoId}
+      if(userId) obj.userId = userId
     const accessList = await VideoPembelajaranAccess.find({ videoId: req.params.videoId })
-      .populate("videoId", "judul status jenjang topikIPA");
+      .populate("videoId")
+      .populate("userId");
     res.status(200).json(accessList);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 // ✅ Update Access
-exports.updateVideoAccess = async (req, res) => {
+,updateVideoAccess : async (req, res) => {
   try {
     const access = await VideoPembelajaranAccess.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!access) return res.status(404).json({ message: "Data akses tidak ditemukan" });
@@ -125,10 +133,10 @@ exports.updateVideoAccess = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+}
 
 // ✅ Delete Access
-exports.deleteVideoAccess = async (req, res) => {
+,deleteVideoAccess : async (req, res) => {
   try {
     const deleted = await VideoPembelajaranAccess.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Data akses tidak ditemukan" });
@@ -136,4 +144,8 @@ exports.deleteVideoAccess = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
+}
+
+
+module.exports = videoPembelajaran

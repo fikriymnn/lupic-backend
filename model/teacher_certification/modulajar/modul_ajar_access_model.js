@@ -50,10 +50,10 @@ const ModulAjarAccessSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    sumber_informasi: {
+    sumber_informasi: [{
       type: String,
       required: true,
-    },
+    }],
     sumber_informasi_lainnya: {
       type: String,
       required: false,

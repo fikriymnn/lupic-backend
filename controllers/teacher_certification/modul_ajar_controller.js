@@ -6,7 +6,6 @@ const modulAjar = {
   // ✅ Create Modul Ajar
   createModulAjar: async (req, res) => {
     try {
-      console.log(res.body)
       const modul = await ModulAjar.create(req.body);
       res.status(201).json(modul);
     } catch (error) {
@@ -18,7 +17,6 @@ const modulAjar = {
   // ✅ Get All Modul Ajar (with pagination & filter)
   getAllModulAjar: async (req, res) => {
     try {
-      console.log(1)
       const { page = 1, limit = 10, topikIPA, jenjang, search } = req.query;
 
       const filter = {};
@@ -32,7 +30,6 @@ const modulAjar = {
         .sort({ createdAt: -1 })
         .skip((page - 1) * limit)
         .limit(parseInt(limit));
-      console.log(modul)
 
       res.status(200).json({
         data: modul,
@@ -89,6 +86,7 @@ const modulAjar = {
       const access = await ModulAjarAccess.create(req.body);
       res.status(201).json(access);
     } catch (error) {
+      console.log(error.message)
       res.status(400).json({ message: error.message });
     }
   },
@@ -109,11 +107,16 @@ const modulAjar = {
   // ✅ Get Access by Modul Ajar
   getAccessByModul: async (req, res) => {
     try {
-      const accessList = await ModulAjarAccess.find({ modulAjar: req.params.modulId })
-        .populate("modulAjar").populate("user");
-
+      const {modulId} = req.params
+      const {userId} = req.query
+      let obj = {modulAjarId : modulId}
+      if(userId) obj.userId = userId
+      const accessList = await ModulAjarAccess.find(obj)
+        .populate("modulAjarId").populate("userId");
+        console.log(accessList)
       res.status(200).json(accessList);
     } catch (error) {
+      console.log(error.message)
       res.status(500).json({ message: error.message });
     }
   },

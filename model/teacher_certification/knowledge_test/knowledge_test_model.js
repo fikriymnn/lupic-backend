@@ -2,26 +2,24 @@ const mongoose = require("mongoose")
 const { model } = mongoose
 
 const KnowlageTestSchema = new mongoose.Schema({
-    kategori_soal: {
-        type: String,
+    paketId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "KnowlageTestPaket", 
+    },
+    kategori: {    
+        type: String,    //PCK atau SJT
         required: true
     },
-    type_jawaban: {
+    soal: [{
+        type: String, //IMAGES atau TEXT
+        value:String   
+    }],
+    pilihan: [{
+        type: String, 
+    }],
+    jawaban: {
         type: String,
-        required: true
     },
-    soal: [
-        {
-            type: String,
-            value: String
-        }
-    ],
-    jawaban: [
-        {
-            type: String,
-            value: String
-        }
-    ]
 })
 
 module.exports = model("KnowlageTest", KnowlageTestSchema)

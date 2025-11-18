@@ -22,7 +22,7 @@ const videoPembelajaranAccessSchema = new Schema(
     nama_instansi: { type: String, trim: true },
     mata_pelajaran: { type: String, trim: true },
     status_ppg: { type: String, trim: true },
-    sumber_informasi: { type: String, trim: true },
+    sumber_informasi: [{ type: String, trim: true }],
     sumber_informasi_lainnya: { type: String, trim: true },
     tanggal_pengisi: { type: Date, default: Date.now },
     bukti_pembayaran: { type: String, trim: true },
