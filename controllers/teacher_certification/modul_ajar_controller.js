@@ -58,7 +58,6 @@ const modulAjar = {
     console.log("modul ajar")
     try {
       const modul = await ModulAjar.findByIdAndUpdate(req.params.id, req.body,{new:true});
-      console.log(modul)
       res.status(200).json(modul);
     } catch (error) {
       console.log(error.message)
@@ -113,7 +112,6 @@ const modulAjar = {
       if(userId) obj.userId = userId
       const accessList = await ModulAjarAccess.find(obj)
         .populate("modulAjarId").populate("userId");
-        console.log(accessList)
       res.status(200).json(accessList);
     } catch (error) {
       console.log(error.message)

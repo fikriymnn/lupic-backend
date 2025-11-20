@@ -10,6 +10,9 @@ const KnowlageTestSchema = new mongoose.Schema({
         type: String,    //PCK atau SJT
         required: true
     },
+    penjelasan: {
+        type: String
+    },
     soal: [{
         type: String, //IMAGES atau TEXT
         value:String   

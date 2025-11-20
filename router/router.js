@@ -41,5 +41,6 @@ router.post("/file",upload.single('file'),(req,res)=>{
 router.use("/",require("./teacher_certification/studycase_routes"))
 router.use("/",require("./teacher_certification/modul_ajar_routes"))
 router.use("/",require("./teacher_certification/video_pembelajaran_routes"))
+router.use("/",require("./teacher_certification/knowledge_test_routes"))
 
 module.exports = router;

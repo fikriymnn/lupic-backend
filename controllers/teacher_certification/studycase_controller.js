@@ -62,7 +62,6 @@ createStudyCase : async (req, res) => {
     })
     studyCase.answer = answer
     if (!studyCase) return res.status(404).json({ message: "Study case not found" });
-    console.log(studyCase)
     res.json(studyCase);
   } catch (err) {
     console.log(err.message)
