@@ -2,11 +2,11 @@ const mongoose = require("mongoose")
 const { model } = mongoose
 
 const KnowlageTestSchema = new mongoose.Schema({
-    paketId:{
+    paketId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "KnowlageTestPaket", 
+        ref: "KnowlageTestPaket",
     },
-    kategori: {    
+    kategori: {
         type: String,    //PCK atau SJT
         required: true
     },
@@ -14,11 +14,17 @@ const KnowlageTestSchema = new mongoose.Schema({
         type: String
     },
     soal: [{
-        type: String, //IMAGES atau TEXT
-        value:String   
+        type: {
+            type: String,  // TEXT atau IMAGE
+            required: true
+        },
+        value: {
+            type: String,  // teks atau nama file
+            required: true
+        }
     }],
     pilihan: [{
-        type: String, 
+        type: String,
     }],
     jawaban: {
         type: String,

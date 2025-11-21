@@ -71,6 +71,7 @@ const knowledgeTestController = {
       const soal = await KnowlageTest.create(req.body);
       res.status(201).json(soal);
     } catch (e) {
+      console.log(e.message)
       res.status(400).json({ message: e.message });
     }
   },
@@ -79,6 +80,42 @@ const knowledgeTestController = {
   getAllSoal: async (req, res) => {
     try {
       const soal = await KnowlageTest.find().populate("paketId");
+      res.status(200).json(soal);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  },
+
+  // GET ALL Soal
+  getAllSoalGratis: async (req, res) => {
+    try {
+      const paketGratis = await KnowlageTestPaket.findOne({ status: "GRATIS" })
+      if (paketGratis?._id) {
+        const soal = await KnowlageTest.find({ paketId: paketGratis._id })
+        if (soal) {
+          const grouped = soal.reduce((acc, item) => {
+            if (!acc[item.kategori]) acc[item.kategori] = [];
+            acc[item.kategori].push(item);
+            return acc;
+          }, {});
+          console.log(grouped)
+          res.status(200).json(grouped);
+        }
+      } else {
+        res.status(200).send([]);
+      }
+    } catch (e) {
+      console.log(e.message)
+      res.status(500).json({ message: e.message });
+    }
+  },
+
+  // GET Soal by ID
+  getSoalByPaketId: async (req, res) => {
+    try {
+      const soal = await KnowlageTest.find({ paketId: req.params.id })
+        .populate("paketId");
+      if (!soal) return res.status(404).json({ message: "Soal tidak ditemukan" });
       res.status(200).json(soal);
     } catch (e) {
       res.status(500).json({ message: e.message });
@@ -150,6 +187,7 @@ const knowledgeTestController = {
       const access = await KnowledgeTestAccess.create(req.body);
       res.status(201).json(access);
     } catch (e) {
+      console.log(e.message)
       res.status(400).json({ message: e.message });
     }
   },
@@ -158,10 +196,21 @@ const knowledgeTestController = {
   getAllAccess: async (req, res) => {
     try {
       const access = await KnowledgeTestAccess.find()
-        .populate("paketId")
         .populate("userId")
         .sort({ createdAt: -1 });
 
+      res.status(200).json(access);
+    } catch (e) {
+      console.log(e.message)
+      res.status(500).json({ message: e.message });
+    }
+  },
+
+
+  // GET User Access
+  getUserAccess: async (req, res) => {
+    try {
+      const access = await KnowledgeTestAccess.findOne({ userId: req.params.id })
       res.status(200).json(access);
     } catch (e) {
       res.status(500).json({ message: e.message });

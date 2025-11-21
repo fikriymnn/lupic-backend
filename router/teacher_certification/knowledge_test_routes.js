@@ -17,6 +17,8 @@ router.delete("/paket/:id", knowledgeTest.deletePaket);
 // ==========================================
 router.post("/soal", knowledgeTest.createSoal);
 router.get("/soal", knowledgeTest.getAllSoal);
+router.get("/soal/gratis", knowledgeTest.getAllSoalGratis);
+router.get("/soal/paketid/:id?", knowledgeTest.getSoalByPaketId);
 router.get("/soal/id/:id?", knowledgeTest.getSoalById);
 router.put("/soal/:id", knowledgeTest.updateSoal);
 router.delete("/soal/:id", knowledgeTest.deleteSoal);
@@ -30,6 +32,7 @@ router.get("/soal/paket/:paketId", knowledgeTest.getSoalByPaketGrouped);
 // ==========================================
 router.post("/access", knowledgeTest.createAccess);
 router.get("/access", knowledgeTest.getAllAccess);
+router.get("/access/id/:id", knowledgeTest.getUserAccess);
 
 // GET access berdasarkan userId atau paketId (pakai query ?userId= & ?paketId=)
 router.get("/access/filter", knowledgeTest.getAccessByFilter);
