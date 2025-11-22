@@ -18,6 +18,7 @@ router.delete("/paket/:id", knowledgeTest.deletePaket);
 router.post("/soal", knowledgeTest.createSoal);
 router.get("/soal", knowledgeTest.getAllSoal);
 router.get("/soal/gratis", knowledgeTest.getAllSoalGratis);
+router.get("/soal/premium/:id", knowledgeTest.getAllSoalPremium);
 router.get("/soal/paketid/:id?", knowledgeTest.getSoalByPaketId);
 router.get("/soal/id/:id?", knowledgeTest.getSoalById);
 router.put("/soal/:id", knowledgeTest.updateSoal);

@@ -86,13 +86,42 @@ const knowledgeTestController = {
     }
   },
 
-  // GET ALL Soal
+  // GET ALL Soal Gratis
   getAllSoalGratis: async (req, res) => {
     try {
       const paketGratis = await KnowlageTestPaket.findOne({ status: "GRATIS" })
       if (paketGratis?._id) {
         const soal = await KnowlageTest.find({ paketId: paketGratis._id })
         if (soal) {
+          const grouped = soal.reduce((acc, item) => {
+            if (!acc[item.kategori]) acc[item.kategori] = [];
+            acc[item.kategori].push(item);
+            return acc;
+          }, {});
+          console.log(grouped)
+          res.status(200).json(grouped);
+        }
+      } else {
+        res.status(200).send([]);
+      }
+    } catch (e) {
+      console.log(e.message)
+      res.status(500).json({ message: e.message });
+    }
+  },
+
+    // GET ALL Soal Premium
+  getAllSoalPremium: async (req, res) => {
+    try {
+      console.log(req.params.id)
+      const paketPremium = await KnowlageTestPaket.findOne({_id:req.params.id})
+      console.log(paketPremium)
+      if (paketPremium?._id) {
+        console.log(paketPremium?._id)
+        const soal = await KnowlageTest.find({ paketId: paketPremium._id })
+        if (soal) {
+          console.log("SOALL")
+          console.log(soal)
           const grouped = soal.reduce((acc, item) => {
             if (!acc[item.kategori]) acc[item.kategori] = [];
             acc[item.kategori].push(item);
@@ -240,8 +269,10 @@ const knowledgeTestController = {
   updateAccess: async (req, res) => {
     try {
       const access = await KnowledgeTestAccess.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      console.log(req.body)
       res.status(200).json(access);
     } catch (e) {
+      console.log(e.message)
       res.status(400).json({ message: e.message });
     }
   },
