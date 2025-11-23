@@ -9,9 +9,7 @@ const ModulAjarAccessSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // jika nanti kamu punya model user
-      required: false,
+      type: String
     },
     status: {
       type: String,

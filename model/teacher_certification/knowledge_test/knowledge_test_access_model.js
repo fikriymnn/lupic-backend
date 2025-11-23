@@ -8,9 +8,7 @@ const KnowledgeTestAccessSchema = new Schema(
       type:String
     },
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: false
+      type: String
     },
     start_date:{
       type: Date,

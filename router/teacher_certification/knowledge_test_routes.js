@@ -34,6 +34,7 @@ router.get("/soal/paket/:paketId", knowledgeTest.getSoalByPaketGrouped);
 router.post("/access", knowledgeTest.createAccess);
 router.get("/access", knowledgeTest.getAllAccess);
 router.get("/access/id/:id", knowledgeTest.getUserAccess);
+router.get("/access/all/id/:id", knowledgeTest.getAllUserAccess);
 
 // GET access berdasarkan userId atau paketId (pakai query ?userId= & ?paketId=)
 router.get("/access/filter", knowledgeTest.getAccessByFilter);

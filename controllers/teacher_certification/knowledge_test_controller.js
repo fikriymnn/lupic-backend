@@ -213,6 +213,7 @@ const knowledgeTestController = {
   // CREATE Access
   createAccess: async (req, res) => {
     try {
+      console.log(req.body.userId)
       const access = await KnowledgeTestAccess.create(req.body);
       res.status(201).json(access);
     } catch (e) {
@@ -239,7 +240,17 @@ const knowledgeTestController = {
   // GET User Access
   getUserAccess: async (req, res) => {
     try {
-      const access = await KnowledgeTestAccess.findOne({ userId: req.params.id })
+      const access = await KnowledgeTestAccess.findOne({ userId: req.params.id }).sort({ createdAt: -1 })
+      res.status(200).json(access);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  },
+
+  // GET All User Access
+  getAllUserAccess: async (req, res) => {
+    try {
+      const access = await KnowledgeTestAccess.find({ userId: req.params.id }).sort({ createdAt: -1 })
       res.status(200).json(access);
     } catch (e) {
       res.status(500).json({ message: e.message });

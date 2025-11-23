@@ -10,9 +10,7 @@ const videoPembelajaranAccessSchema = new Schema(
       required: true
     },
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: false
+      type: String
     },
     nama: { type: String, trim: true },
     email: { type: String, trim: true },
