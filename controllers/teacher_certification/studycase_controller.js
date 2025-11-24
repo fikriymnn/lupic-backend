@@ -58,7 +58,8 @@ createStudyCase : async (req, res) => {
     const studyCase = await StudyCase.findById(req.params.id)
       .populate("forums");
     const answer = await StudyCaseAnswer.findOne({
-      userId:userId
+      userId:userId,
+      studyCaseId:req.params.id
     })
     studyCase.answer = answer
     if (!studyCase) return res.status(404).json({ message: "Study case not found" });
@@ -106,11 +107,13 @@ createStudyCase : async (req, res) => {
     const existing = await StudyCaseAnswer.findOne({ studyCaseId });
     if (existing)
       return res.status(400).json({ message: "Answer already exists for this study case" });
-
+    console.log(req.body)
     const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
+    console.log(newAnswer)
     res.status(201).json(newAnswer);
   } catch (err) {
+    console.log(err.message)
     res.status(400).json({ error: err.message });
   }
 }

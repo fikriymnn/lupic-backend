@@ -60,6 +60,7 @@ const ModulAjarAccessSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    jenis_pembayaran: {type:String},
     bukti_pembayaran: {
       type: String, // bisa URL atau path file bukti
     },
