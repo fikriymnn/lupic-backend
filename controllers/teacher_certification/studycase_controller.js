@@ -107,10 +107,8 @@ createStudyCase : async (req, res) => {
     const existing = await StudyCaseAnswer.findOne({ studyCaseId });
     if (existing)
       return res.status(400).json({ message: "Answer already exists for this study case" });
-    console.log(req.body)
     const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
-    console.log(newAnswer)
     res.status(201).json(newAnswer);
   } catch (err) {
     console.log(err.message)
