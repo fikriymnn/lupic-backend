@@ -106,17 +106,15 @@ const videoPembelajaran = {
       res.status(500).json({ message: error.message });
     }
   }
-
   // ✅ Get Access by Video ID
-  , getAccessByVideoId: async (req, res) => {
+  ,getAccessByVideoId: async (req, res) => {
     try {
       const { videoId } = req.params
       const { userId } = req.query
       let obj = { videoId: videoId }
       if (userId) obj.userId = userId
-      const accessList = await VideoPembelajaranAccess.find({ videoId: req.params.videoId })
+      const accessList = await VideoPembelajaranAccess.find(obj)
         .populate("videoId")
-        .populate("userId");
       res.status(200).json(accessList);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -145,6 +143,9 @@ const videoPembelajaran = {
     }
   }
 }
+
+
+
 
 
 module.exports = videoPembelajaran

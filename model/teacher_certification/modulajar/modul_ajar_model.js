@@ -39,6 +39,9 @@ const ModulAjarSchema = new mongoose.Schema(
       type: String, // URL atau path file
       required: false,
     },
+    harga:{
+      type:Number,
+    }
   },
   {
     timestamps: true,

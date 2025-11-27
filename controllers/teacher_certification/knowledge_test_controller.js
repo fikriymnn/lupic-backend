@@ -2,6 +2,7 @@ const KnowlageTestPaket = require("../../model/teacher_certification/knowledge_t
 const KnowlageTest = require("../../model/teacher_certification/knowledge_test/knowledge_test_model");
 const KnowledgeTestAccess = require("../../model/teacher_certification/knowledge_test/knowledge_test_access_model");
 const KnowledgeTestNilai = require("../../model/teacher_certification/knowledge_test/knowledge_test_nilai_model");
+const KnowlageTestHarga = require("../../model/teacher_certification/knowledge_test/knowledge_test_harga_model");
 
 const knowledgeTestController = {
 
@@ -352,6 +353,32 @@ const knowledgeTestController = {
     }
   },
 
+  getHarga: async(req,res)=>{
+    try{
+      const harga = await KnowlageTestHarga.find().sort({ createdAt: -1 });
+      if (harga.length === 0) {
+         const harga = await KnowlageTestHarga.create({
+          harga:10000
+         })
+         res.status(200).json(harga);
+      }
+      const hargaOne = harga[0];
+      res.status(200).json(hargaOne);
+    }catch(err){
+      console.log(err.message)
+      res.status(500).json({ message: e.message });
+    }
+  },
+  updateHarga: async(req,res)=>{
+    try{
+      const {id} = req.params
+      const harga = await KnowlageTestHarga.updateOne({_id:id},req.body,{new:true});
+      res.status(200).json(harga);
+    }catch(err){
+      console.log(err.message)
+      res.status(500).json({ message: e.message });
+    }
+  }
 };
 
 module.exports = knowledgeTestController;

@@ -10,7 +10,10 @@ const videoPembelajaranSchema = new Schema(
     linkVideo: { type: String, required: true, trim: true },
     jenjang: { type: String, required: true }, // sebelumnya enum ["SD","SMP"]
     topikIPA: { type: String, required: true }, // sebelumnya enum
-    status: { type: String, default: "GRATIS" } // sebelumnya enum ["GRATIS","BERBAYAR"]
+    status: { type: String, default: "GRATIS" }, // sebelumnya enum ["GRATIS","BERBAYAR"]
+    harga:{
+      type:Number,
+    }
   },
   { timestamps: true }
 );    

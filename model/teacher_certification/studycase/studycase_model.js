@@ -12,6 +12,10 @@ const studyCaseSchema = new Schema(
       type: String,
       trim: true
     },
+    status:{
+      type: String,
+      default: "GRATIS"
+    },
     jenjang: {
       type: String,
       enum: ["SD", "SMP"],
@@ -34,6 +38,9 @@ const studyCaseSchema = new Schema(
     pertanyaanAnalisis: {
       type: String,
       required: true
+    },
+        harga:{
+      type:Number,
     },
     pembahasan: {
       type: String

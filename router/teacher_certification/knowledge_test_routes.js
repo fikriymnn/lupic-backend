@@ -55,4 +55,9 @@ router.get("/nilai/history/:userId", knowledgeTest.getHistoryByUser);
 router.delete("/nilai/:id", knowledgeTest.deleteNilai);
 
 
+router.get("/harga", knowledgeTest.getHarga);
+
+router.put("/harga/:id", knowledgeTest.updateHarga);
+
+
 module.exports = router;

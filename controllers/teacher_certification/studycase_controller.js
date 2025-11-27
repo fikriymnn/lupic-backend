@@ -1,6 +1,7 @@
 const StudyCase = require("../../model/teacher_certification/studycase/studycase_model");
 const StudyCaseAnswer = require("../../model/teacher_certification/studycase/studycase_answer_model");
 const StudyCaseForum = require("../../model/teacher_certification/studycase/studycase_forum_model");
+const StudyCaseAccess = require("../../model/teacher_certification/studycase/studycase_access_model");
 const mongoose = require("mongoose");
 
 // =======================
@@ -176,7 +177,71 @@ createStudyCase : async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+},
+
+
+/* ==========================
+     MODUL AJAR ACCESS CONTROLLERS
+  ============================= */
+
+  // ✅ Create Access
+  createAccess: async (req, res) => {
+    try {
+      const access = await StudyCaseAccess.create(req.body);
+      res.status(201).json(access);
+    } catch (error) {
+      console.log(error.message)
+      res.status(400).json({ message: error.message });
+    }
+  },
+
+  // ✅ Get All Access (populate modul ajar)
+  getAllAccess: async (req, res) => {
+    try {
+      const accessList = await StudyCaseAccess.find()
+        .populate("modulAjar").populate("user")
+        .sort({ createdAt: -1 });
+
+      res.status(200).json(accessList);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  // ✅ Get Access by Modul Ajar
+  getAccessByStudyCase: async (req, res) => {
+    try {
+      const {studyCaseId} = req.params
+      const {userId} = req.query
+      let obj = {studyCaseId : studyCaseId}
+      if(userId) obj.userId = userId
+      const accessList = await StudyCaseAccess.find(obj)
+      res.status(200).json(accessList);
+    } catch (error) {
+      console.log(error.message)
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  // ✅ Update Access
+  updateAccess: async (req, res) => {
+    try {
+      const access = await StudyCaseAccess.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.status(200).json(access);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+
+  // ✅ Delete Access
+  deleteAccess: async (req, res) => {
+    try {
+      await StudyCaseAccess.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "Access data berhasil dihapus" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
 }
 
 

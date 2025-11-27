@@ -25,4 +25,15 @@ router.post("/study_case_forum", studyCase.createForumMessage);
 router.get("/study_case_forum/:studyCaseId", studyCase.getForumByStudyCase);
 router.delete("/study_case_forum/:id", studyCase.deleteForumMessage);
 
+
+
+// =============================
+// 💬 Study Case Access CRUD
+// =============================
+router.post("/study_case_access", studyCase.createAccess);
+router.get("/study_case_access", studyCase.getAllAccess);
+router.get("/study_case_access/:studyCaseId", studyCase.getAccessByStudyCase);
+router.put("/study_case_access/:id", studyCase.updateAccess);
+router.delete("/study_case_access/:id", studyCase.deleteAccess);
+
 module.exports = router;

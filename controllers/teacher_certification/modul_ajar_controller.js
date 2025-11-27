@@ -111,7 +111,9 @@ const modulAjar = {
       let obj = {modulAjarId : modulId}
       if(userId) obj.userId = userId
       const accessList = await ModulAjarAccess.find(obj)
-        .populate("modulAjarId").populate("userId");
+        .populate("modulAjarId")
+        console.log(userId)
+        console.log(accessList)
       res.status(200).json(accessList);
     } catch (error) {
       console.log(error.message)

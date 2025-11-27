@@ -25,6 +25,9 @@ const videoPembelajaranAccessSchema = new Schema(
     tanggal_pengisi: { type: Date, default: Date.now },
     jenis_pembayaran: {type:String},
     bukti_pembayaran: { type: String, trim: true },
+    harga:{
+      type:Number,
+    },
     status: { type: String, default: "NO ACCESS" } // sebelumnya enum
   },
   { timestamps: true }
