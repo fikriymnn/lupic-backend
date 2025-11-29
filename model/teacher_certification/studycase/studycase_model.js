@@ -14,7 +14,7 @@ const studyCaseSchema = new Schema(
     },
     status:{
       type: String,
-      default: "GRATIS"
+      default: "BERBAYAR"
     },
     jenjang: {
       type: String,
