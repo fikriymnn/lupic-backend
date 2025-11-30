@@ -7,7 +7,6 @@ const studyCaseAnswerSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "StudyCase",
       required: true,
-      unique: true // one-to-one
     },
     userId: {
       type: String,

@@ -58,7 +58,7 @@ createStudyCase : async (req, res) => {
     const {userId} = req.query
     const studyCase = await StudyCase.findById(req.params.id)
       .populate("forums");
-    const answer = await StudyCaseAnswer.findOne({
+    const answer = await StudyCaseAnswer.find({
       userId:userId,
       studyCaseId:req.params.id
     })
@@ -105,9 +105,9 @@ createStudyCase : async (req, res) => {
 ,createAnswer : async (req, res) => {
   try {
     const { studyCaseId, userId, answer } = req.body;
-    const existing = await StudyCaseAnswer.findOne({ studyCaseId });
-    if (existing)
-      return res.status(400).json({ message: "Answer already exists for this study case" });
+    console.log(req.body)
+    const existing = await StudyCaseAnswer.findOne({ studyCaseId:studyCaseId,userId:userId });
+    if (existing) return res.status(400).json({ message: "Answer already exists for this study case" });
     const newAnswer = new StudyCaseAnswer({ studyCaseId, userId, answer });
     await newAnswer.save();
     res.status(201).json(newAnswer);
@@ -198,11 +198,17 @@ createStudyCase : async (req, res) => {
   // ✅ Get All Access (populate modul ajar)
   getAllAccess: async (req, res) => {
     try {
-      const accessList = await StudyCaseAccess.find()
-        .populate("modulAjar").populate("user")
+      if(req.query.userId){
+        const accessList = await StudyCaseAccess.find({userId:req.query.userId})
+        .populate("studyCaseId")
         .sort({ createdAt: -1 });
-
+        res.status(200).json(accessList);
+      }else{
+      const accessList = await StudyCaseAccess.find()
+        .populate("studyCaseId")
+        .sort({ createdAt: -1 });
       res.status(200).json(accessList);
+      }
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

@@ -98,10 +98,18 @@ const videoPembelajaran = {
   // ✅ Get All Access (populate video)
   , getAllVideoAccess: async (req, res) => {
     try {
-      const accessList = await VideoPembelajaranAccess.find()
-        .populate("videoId", "judul status jenjang topikIPA")
+      if(req.query.userId){
+        const accessList = await VideoPembelajaranAccess.find({userId:req.query.userId})
+        .populate("videoId")
         .sort({ createdAt: -1 });
-      res.status(200).json(accessList);
+        res.status(200).json(accessList);
+      }else{
+      const accessList = await VideoPembelajaranAccess.find()
+        .populate("videoId")
+        .sort({ createdAt: -1 });
+        res.status(200).json(accessList);
+      }
+      
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -114,7 +122,7 @@ const videoPembelajaran = {
       let obj = { videoId: videoId }
       if (userId) obj.userId = userId
       const accessList = await VideoPembelajaranAccess.find(obj)
-        .populate("videoId")
+        .populate("videoId").sort({ createdAt: -1 });
       res.status(200).json(accessList);
     } catch (error) {
       res.status(500).json({ message: error.message });

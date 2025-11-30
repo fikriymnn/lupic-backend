@@ -57,7 +57,7 @@ const modulAjar = {
   updateModulAjar: async (req, res) => {
     console.log("modul ajar")
     try {
-      const modul = await ModulAjar.findByIdAndUpdate(req.params.id, req.body,{new:true});
+      const modul = await ModulAjar.findByIdAndUpdate(req.params.id, req.body, { new: true });
       res.status(200).json(modul);
     } catch (error) {
       console.log(error.message)
@@ -93,11 +93,19 @@ const modulAjar = {
   // ✅ Get All Access (populate modul ajar)
   getAllAccess: async (req, res) => {
     try {
-      const accessList = await ModulAjarAccess.find()
-        .populate("modulAjar").populate("user")
-        .sort({ createdAt: -1 });
+      if (req.query.userId) {
+        const accessList = await ModulAjarAccess.find({ userId: req.query.userId })
+          .populate("modulAjarId").populate("userId")
+          .sort({ createdAt: -1 });
 
-      res.status(200).json(accessList);
+        res.status(200).json(accessList);
+      } else {
+        const accessList = await ModulAjarAccess.find()
+          .populate("modulAjarId").populate("userId")
+          .sort({ createdAt: -1 });
+
+        res.status(200).json(accessList);
+      }
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -106,14 +114,12 @@ const modulAjar = {
   // ✅ Get Access by Modul Ajar
   getAccessByModul: async (req, res) => {
     try {
-      const {modulId} = req.params
-      const {userId} = req.query
-      let obj = {modulAjarId : modulId}
-      if(userId) obj.userId = userId
+      const { modulId } = req.params
+      const { userId } = req.query
+      let obj = { modulAjarId: modulId }
+      if (userId) obj.userId = userId
       const accessList = await ModulAjarAccess.find(obj)
-        .populate("modulAjarId")
-        console.log(userId)
-        console.log(accessList)
+        .populate("modulAjarId").sort({ createdAt: -1 });
       res.status(200).json(accessList);
     } catch (error) {
       console.log(error.message)
