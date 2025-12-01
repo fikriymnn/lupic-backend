@@ -49,13 +49,6 @@ const studyCaseSchema = new Schema(
   { timestamps: true }
 );
 
-// Virtual: relasi ke StudyCaseAnswer (one-to-one)
-studyCaseSchema.virtual("answer", {
-  ref: "StudyCaseAnswer",
-  localField: "_id",
-  foreignField: "studyCaseId",
-  justOne: true
-});
 
 // Virtual: relasi ke StudyCaseForum (one-to-many)
 studyCaseSchema.virtual("forums", {

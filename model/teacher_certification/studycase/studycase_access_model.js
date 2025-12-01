@@ -10,7 +10,8 @@ const StudyCaseAccessSchema = new Schema(
             required: true
         },
         userId: {
-            type: String
+             type: Schema.Types.ObjectId,
+            ref: "User",
         },
         nama: { type: String, trim: true },
         email: { type: String, trim: true },
