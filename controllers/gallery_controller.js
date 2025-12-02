@@ -3,7 +3,7 @@ const Gallery = require("../model/gallery_model")
 const gallery_controller = {
 get_gallery:async(req,res)=>{
     try{
-       const data = await Gallery.find()
+       const data = await Gallery.find().sort({createdAt:-1})
        res.json(data)
     }catch(err){
         res.status(500).json({
