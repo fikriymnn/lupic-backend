@@ -201,9 +201,11 @@ const studyCase = {
   getAllAccess: async (req, res) => {
     try {
       if (req.query.userId) {
-        const accessList = await StudyCaseAccess.find({ userId: req.query.userId })
-          .populate("studyCaseId")
-          .sort({ createdAt: -1 });
+        console.log(req.query.userId)
+        const accessList = await StudyCaseAccess.find({ userId: `${req.query.userId}` })
+          .populate("studyCaseId").sort({ createdAt: -1 });
+
+                console.log(accessList)
         res.status(200).json(accessList);
       } else {
         const accessList = await StudyCaseAccess.find()
@@ -212,6 +214,7 @@ const studyCase = {
         res.status(200).json(accessList);
       }
     } catch (error) {
+      console.log(error.message)
       res.status(500).json({ message: error.message });
     }
   },
