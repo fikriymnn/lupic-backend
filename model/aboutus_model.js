@@ -18,7 +18,18 @@ const aboutus_schema = new mongoose.Schema({
         type: String,
         required: true
     },
-
+    partnerBanner: {
+        gambar : String
+    },
+    partner: [{
+        nama: String,
+        logo: String,
+        deskripsi: String
+    }],
+    collaboration: [{
+        nama: String,
+        gambar: String
+    }]
 },
     { timestamps: true }
 )

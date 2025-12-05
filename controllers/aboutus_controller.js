@@ -13,9 +13,10 @@ const aboutus_controller = {
     },
     create_aboutus:async(req,res)=>{
         try{
-            const {gambar,nama,deskripsi,pesan} = req.body
+            const {gambar,nama,deskripsi,pesan,partnerBanner,partner,collaboration} = req.body
+    
             await Aboutus.create({
-                gambar,nama,deskripsi,pesan
+                gambar,nama,deskripsi,pesan,partnerBanner,partner,collaboration
             })
             res.send("success")
         }catch(err){
@@ -27,9 +28,9 @@ const aboutus_controller = {
     update_aboutus:async(req,res)=>{
         try{
             const {id} = req.params
-            const {gambar,nama,deskripsi,pesan} = req.body
+            const {gambar,nama,deskripsi,pesan,partnerBanner,partner,collaboration} = req.body
 
-            await Aboutus.updateOne({_id:id},{gambar,nama,deskripsi,pesan})
+            await Aboutus.updateOne({_id:id},{gambar,nama,deskripsi,pesan,partnerBanner,partner,collaboration})
             res.send("success")
         }catch(err){
             res.status(500).json({

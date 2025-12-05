@@ -10,6 +10,12 @@ const home_schema = new mongoose.Schema({
         type:Array,
         default:[]
     },
+    hero_partner: {
+        type:String
+    },
+    footer_partner:{
+        type:String
+    }
 },
 {timestamps:true}
 )
