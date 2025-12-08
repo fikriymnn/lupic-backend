@@ -44,4 +44,7 @@ router.use("/",require("./teacher_certification/video_pembelajaran_routes"))
 router.use("/",require("./teacher_certification/knowledge_test_routes"))
 router.use("/",require("./teacher_certification/admin_setting_routes"))
 
+// Preservice 
+router.use("/",require("./preservice_test_routes"))
+
 module.exports = router;
