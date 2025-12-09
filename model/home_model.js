@@ -15,6 +15,12 @@ const home_schema = new mongoose.Schema({
     },
     footer_partner:{
         type:String
+    },
+    hero_description:{
+        type: String
+    },
+    hero_title: {
+        type: String
     }
 },
 {timestamps:true}

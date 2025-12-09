@@ -47,4 +47,7 @@ router.use("/",require("./teacher_certification/admin_setting_routes"))
 // Preservice 
 router.use("/",require("./preservice_test_routes"))
 
+//Conference Paper
+router.use("/",require("./conference_paper_routes"))
+
 module.exports = router;

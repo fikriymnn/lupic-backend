@@ -10,6 +10,8 @@ const home_controller = {
                 hero_section: data[0].hero_section,
                 carousel: data[0].carousel,
                 hero_partner: data[0].carousel,
+                hero_title:data[0].hero_title,
+                hero_description:data[0].hero_description,
                 footer_partner: data[0].footer_partner
             })
         } catch (err) {
@@ -20,11 +22,11 @@ const home_controller = {
     },
     create_home: async (req, res) => {
         try {
-            const { hero_section, carousel,hero_partner,footer_partner } = req.body
+            const { hero_section, carousel,hero_partner,footer_partner,hero_description,hero_title } = req.body
             await Home.create({
                 hero_section,
                 carousel,
-                hero_partner,footer_partner
+                hero_partner,footer_partner,hero_description,hero_title
             })
             res.send("success")
         } catch (err) {
@@ -35,10 +37,10 @@ const home_controller = {
     },
     update_home: async (req, res) => {
         try {
-            const { hero_section, carousel,hero_partner,footer_partner } = req.body
+            const { hero_section, carousel,hero_partner,footer_partner,hero_description,hero_title } = req.body
             const { id } = req.params
 
-            await Home.updateOne({ _id: id }, { hero_section, carousel,hero_partner,footer_partner })
+            await Home.updateOne({ _id: id }, { hero_section, carousel,hero_partner,footer_partner,hero_description,hero_title })
             res.send("success")
         } catch (err) {
             res.status(500).json({
