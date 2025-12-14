@@ -18,7 +18,22 @@ async function start(){
         console.log(err.message)
     }
     
-    app.use(cors({ origin: "*",credentials: true }));
+const allowedOrigins = [
+  "https://www.lupic.org",
+  "http://localhost:3000",
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 
     app.use(body_parser.json())
     app.use(body_parser.urlencoded({extended:true}))
