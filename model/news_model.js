@@ -29,8 +29,15 @@ const news_schema = new mongoose.Schema({
         sub_gambar:Array,
         sub_content:String
     }],
-},
-{timestamps:true}
+     createdAt: {
+        type: Date,
+        default: Date.now   // ⬅️ default otomatis
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
+}
 )
 
 module.exports =  mongoose.model("News",news_schema)
