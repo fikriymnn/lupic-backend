@@ -1,23 +1,28 @@
 const News = require("../model/news_model")
 
+const parseTanggal = (tanggalString) => {
+    const [day, month, year] = tanggalString.split("/")
+    return new Date(year, month - 1, day)
+}
+
 const news_controller = {
     get_news: async (req, res) => {
         try {
-            const { page, limit, search,count } = req.query
+            const { page, limit, search, count } = req.query
             const s = parseInt((page - 1) * limit);
             const l = parseInt(limit);
 
             if (req.params.id) {
                 const data = await News.findOne({ _id: req.params.id })
                 res.send(data)
-            }else if(count&&search){
-                const data = await News.countDocuments({judul:{ $regex: search, $options: 'i' } })
+            } else if (count && search) {
+                const data = await News.countDocuments({ judul: { $regex: search, $options: 'i' } })
                 res.status(200).json(data)
             } else if (search) {
-                const data = await News.find({judul:{ $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).skip(s)
-                .limit(l);
+                const data = await News.find({ judul: { $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).skip(s)
+                    .limit(l);
                 res.send(data)
-            }else if(page&&limit) {
+            } else if (page && limit) {
                 const data = await News.find().sort({ createdAt: -1 }).skip(s)
                     .limit(l);
                 res.send(data)
@@ -33,10 +38,21 @@ const news_controller = {
     },
     create_news: async (req, res) => {
         try {
-            const { judul, deskripsi, gambar, sub_content, tanggal, author,content } = req.body
+            const { judul, deskripsi, gambar, sub_content, tanggal, author, content } = req.body
+
+            const createdDate = parseTanggal(tanggal)
+
             await News.create({
-                judul, deskripsi, gambar, sub_content, tanggal, author,content
+                judul,
+                deskripsi,
+                gambar,
+                sub_content,
+                tanggal,               // tetap string
+                author,
+                content,
+                createdAt: createdDate // hasil convert
             })
+
             res.send("success")
         } catch (err) {
             res.status(500).json({
@@ -46,10 +62,25 @@ const news_controller = {
     },
     update_news: async (req, res) => {
         try {
-            const { judul, deskripsi, gambar, sub_content, tanggal, author,content } = req.body
+            const { judul, deskripsi, gambar, sub_content, tanggal, author, content } = req.body
             const { id } = req.params
 
-            await News.updateOne({ _id: id }, { judul, deskripsi, gambar, sub_content, tanggal, author,content })
+            const createdDate = parseTanggal(tanggal)
+
+            await News.updateOne(
+                { _id: id },
+                {
+                    judul,
+                    deskripsi,
+                    gambar,
+                    sub_content,
+                    tanggal,               // tetap string
+                    author,
+                    content,
+                    createdAt: createdDate
+                }
+            )
+
             res.send("success")
         } catch (err) {
             res.status(500).json({
