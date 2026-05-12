@@ -1,29 +1,26 @@
 const mongoose = require('mongoose')
 
-
 const home_schema = new mongoose.Schema({
     hero_section: {
-       type:String,
-       required: true
+        type: String,
+        // required dihapus agar update partial tidak error
     },
     carousel: {
-        type:Array,
-        default:[]
+        type: Array,
+        default: []
     },
     hero_partner: {
-        type:String
+        type: String
     },
-    footer_partner:{
-        type:String
+    footer_partner: {
+        type: String
     },
-    hero_description:{
+    hero_description: {
         type: String
     },
     hero_title: {
         type: String
     }
-},
-{timestamps:true}
-)
+}, { timestamps: true })
 
-module.exports =  mongoose.model("Home",home_schema)
+module.exports = mongoose.model("Home", home_schema)
